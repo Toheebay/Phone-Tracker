@@ -23,12 +23,12 @@ registered_devices = set()
 # Unlock Status
 unlock_status = {"unlocked": False, "expiry_time": 0}
 
-### 🔹 Home Route
+# Home Route - Render index.html as the main page
 @app.route('/')
 def home():
     return render_template('index.html')
 
-### 🔹 Serve favicon.ico
+# Serve favicon.ico
 @app.route('/favicon.ico')
 def favicon():
     return send_from_directory(os.path.join(app.root_path, 'static'), 'favicon.ico', mimetype='image/vnd.microsoft.icon')
