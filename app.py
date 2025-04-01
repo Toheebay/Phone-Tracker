@@ -4,6 +4,7 @@ import base64
 import logging
 import time
 
+# Initialize Flask app
 app = Flask(__name__)
 
 # Configure Logging
@@ -115,14 +116,17 @@ def save_intruder():
     if 'image' not in data:
         return jsonify({"error": "No image provided!"}), 400
 
+    # Process image data
     image_data = data['image'].split(',')[1]
     filename = os.path.join(INTRUDER_DIR, f"intruder_{int(time.time())}.png")
 
     try:
+        # Save the image
         with open(filename, "wb") as f:
             f.write(base64.b64decode(image_data))
         logging.info(f"Intruder image saved: {filename}")
         return jsonify({"message": "Face captured successfully!", "path": filename})
+
     except Exception as e:
         logging.error(f"Error saving image: {e}")
         return jsonify({"error": "Failed to save image!"}), 500
@@ -131,4 +135,4 @@ def save_intruder():
 # 🔹 Run the Flask App
 # ─────────────────────────────────────────────
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host="0.0.0.0", port=int(os.getenv("PORT", 10000)), debug=True)
