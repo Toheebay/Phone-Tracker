@@ -14,7 +14,7 @@ logging.basicConfig(level=logging.INFO)
 phone_location = {"lat": 6.5244, "lon": 3.3792}  # Lagos, Nigeria
 
 # Directory to store captured images
-INTRUDER_DIR = "static/intruders"
+INTRUDER_DIR = os.path.join('static', 'intruders')  # Ensures cross-platform path handling
 os.makedirs(INTRUDER_DIR, exist_ok=True)
 
 # Device Registration Storage
@@ -23,10 +23,10 @@ registered_devices = set()
 # Unlock Status
 unlock_status = {"unlocked": False, "expiry_time": 0}
 
-# Home Route - Render index.html as the main page
+# Home Route - Serve index.html directly as the main page
 @app.route('/')
 def home():
-    return render_template('index.html')
+    return send_from_directory(os.getcwd(), 'index.html')
 
 # Serve favicon.ico
 @app.route('/favicon.ico')
